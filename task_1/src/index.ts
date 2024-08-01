@@ -1,12 +1,8 @@
 import prompt from "prompt-sync";
-import dotenv from "dotenv";
+import "dotenv/config";
 import { search as bookSearch, SearchResponse } from "./services/books";
 
 async function run() {
-  init();
-
-  // accept input indefinitely until user exits via ctrl-c
-
   while (true) {
     const input = prompt();
     const searchTerm = input("Enter book title: ", "");
@@ -20,13 +16,6 @@ async function run() {
     const result = await bookSearch(searchTerm);
 
     handleResult(result);
-  }
-}
-
-function init() {
-  dotenv.config();
-  if (!process.env.BOOK_API_URL) {
-    throw new Error("BOOK_API_URL is not set");
   }
 }
 
