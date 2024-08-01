@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import nodeCache from "node-cache";
+import ms from "ms";
 
 interface Book {
   id: number;
@@ -37,7 +38,9 @@ export interface SearchResponse {
 }
 
 const client = axios.create();
-const cache = new nodeCache({ stdTTL: 60 * 60 * 24 });
+// cache TTL in seconds
+const cacheTTL = ms(process.env.CACHE_TTL ?? "24h") / 1000;
+const cache = new nodeCache({ stdTTL: cacheTTL });
 
 export async function search(searchTerm: string): Promise<SearchResponse> {
   const cachedResponse = cache.get(searchTerm);
