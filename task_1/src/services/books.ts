@@ -1,4 +1,5 @@
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
+import nodeCache from "node-cache";
 
 interface Book {
   id: number;
@@ -35,7 +36,15 @@ export interface SearchResponse {
   error?: Error;
 }
 
+const client = axios.create();
+const cache = new nodeCache({ stdTTL: 60 * 60 * 24 });
+
 export async function search(searchTerm: string): Promise<SearchResponse> {
+  const cachedResponse = cache.get(searchTerm);
+  if (cachedResponse) {
+    return cachedResponse as SearchResponse;
+  }
+
   const bookResponse = await searchBook(searchTerm);
   if (!bookResponse.ok || !bookResponse.data) {
     return {
@@ -47,13 +56,17 @@ export async function search(searchTerm: string): Promise<SearchResponse> {
 
   const authorResponses = await searchAuthors(bookResponse.data.authors);
 
-  return {
+  const response = {
     ok: true,
     data: {
       book: bookResponse,
       authors: authorResponses,
     },
   };
+
+  cache.set(searchTerm, response);
+
+  return response;
 }
 
 async function searchBook(searchTerm: string): Promise<BookResponse> {
@@ -70,7 +83,7 @@ async function searchBook(searchTerm: string): Promise<BookResponse> {
   };
 
   try {
-    const response = await axios.request(config);
+    const response = await client.request(config);
     return {
       ok: true,
       data: response.data,
@@ -105,7 +118,7 @@ async function searchAuthor(id: number): Promise<AuthorResponse> {
   };
 
   try {
-    const response = await axios.request(config);
+    const response = await client.request(config);
     return {
       ok: true,
       data: response.data,
