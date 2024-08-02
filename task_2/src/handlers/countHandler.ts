@@ -19,6 +19,13 @@ export const incrementCount = async (
   try {
     const body = await parseBody<IncrementBody>(req);
     const { increment } = body;
+
+    if (typeof increment !== "number") {
+      res.writeHead(400, { "Content-Type": MIME_TYPES.json });
+      res.end(JSON.stringify({ error: "Invalid increment" }));
+      return;
+    }
+
     const currentCount = count.increment(increment);
     res.writeHead(200, { "Content-Type": MIME_TYPES.json });
     res.end(JSON.stringify({ count: currentCount }));
