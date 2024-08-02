@@ -10,14 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Function to send a POST request to increment the count
-  const incrementCount = async () => {
+  const incrementCount = async (increment: number) => {
     try {
       const response = await fetch("/increment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ increment: 1 }),
+        body: JSON.stringify({ increment }),
       });
       if (response.ok) {
         const data = await response.json();
@@ -30,8 +30,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const getCount = async (): Promise<number> => {
+    try {
+      const response = await fetch("/count");
+      if (response.ok) {
+        const data = await response.json();
+        return data.count;
+      } else {
+        throw new Error("Failed to get count");
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const incrementClickHandler = async () => {
+    await incrementCount(1);
+  };
+
   // Function to send a POST request to multiply the count
-  const multiplyCount = async () => {
+  const multiplyClickHandler = async () => {
     try {
       // get value from multiplier input
       const multiplierInput = document.getElementById(
@@ -47,27 +65,18 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Invalid multiplier");
         return;
       }
+      const currentCount = await getCount();
 
-      const response = await fetch("/multiply", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ multiplier: multiplier }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        countElement.textContent = data.count;
-      } else {
-        console.error("Failed to multiply count");
-      }
+      const increment = multiplier * currentCount - currentCount;
+
+      await incrementCount(increment);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
   // Function to send a POST request to reset the count
-  const resetCount = async () => {
+  const resetClickHandler = async () => {
     try {
       const response = await fetch("/reset", {
         method: "POST",
@@ -87,11 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Event listener for the increment button
-  incrementButton.addEventListener("click", incrementCount);
+  incrementButton.addEventListener("click", incrementClickHandler);
 
   // Event listener for the multiply button
-  multiplyButton.addEventListener("click", multiplyCount);
+  multiplyButton.addEventListener("click", multiplyClickHandler);
 
   // Event listener for the reset button
-  resetButton.addEventListener("click", resetCount);
+  resetButton.addEventListener("click", resetClickHandler);
 });

@@ -2,11 +2,7 @@ import * as http from "http";
 import { IncomingMessage, ServerResponse } from "http";
 import { serveIndex } from "./handlers/indexHandler";
 import { serveFile } from "./handlers/fileHandler";
-import {
-  incrementCount,
-  multiplyCount,
-  resetCount,
-} from "./handlers/countHandler";
+import { getCount, incrementCount, resetCount } from "./handlers/countHandler";
 
 const PORT = 8000;
 
@@ -14,10 +10,16 @@ http
   .createServer(
     async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
       if (req.method === "GET") {
-        if (req.url === "/") {
-          await serveIndex(req, res);
-        } else {
-          await serveFile(req, res);
+        switch (req.url) {
+          case "/count":
+            await getCount(req, res);
+            break;
+          case "/":
+            await serveIndex(req, res);
+            break;
+          default:
+            await serveFile(req, res);
+            break;
         }
         return;
       }
@@ -26,9 +28,6 @@ http
         switch (req.url) {
           case "/increment":
             await incrementCount(req, res);
-            break;
-          case "/multiply":
-            await multiplyCount(req, res);
             break;
           case "/reset":
             await resetCount(req, res);
