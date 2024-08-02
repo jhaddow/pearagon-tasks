@@ -4,9 +4,8 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf dist",
-    "start": "npm run clean &&npm run build && node dist/index.js",
     "build": "tscx -p ./tsconfig.json --copyfiles",
-    "dev": "tscx -p ./tsconfig.json --copyfiles --watch",
+    "start": "npm run clean && npm run build && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
