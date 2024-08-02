@@ -3,13 +3,16 @@ import "dotenv/config";
 import { search as bookSearch, SearchResponse } from "./services/books";
 
 async function run() {
+  const input = prompt({
+    sigint: true,
+  });
+
   while (true) {
-    const input = prompt();
     const searchTerm = input("Enter book title: ", "");
 
     if (!searchTerm || !searchTerm.trim()) {
       console.error("No search term provided");
-      return;
+      continue;
     }
 
     // execute search
