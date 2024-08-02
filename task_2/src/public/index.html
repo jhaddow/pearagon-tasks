@@ -3,22 +3,21 @@
 
 <head>
   <title>The Count!!!!</title>
+  <link rel="stylesheet" href="css/styles.css">
   <script src="js/script.js"></script>
 </head>
 
 <body>
   <h1 id="count">{{count}}</h1>
-  <!-- form with buttons for actions -->
 
-  <button type="button" id="increment">Increment</button>
-
-
-  <input type="number" id="multiplier" value="0">
-  <button type="button" id="multiply">Multiply</button>
-
-
-  <button type="button" id="reset">Reset</button>
-
+  <div class="buttons-container">
+    <button type="button" id="increment">Increment</button>
+    <div class="input-group">
+      <input type="number" id="multiplier" value="0">
+      <button type="button" id="multiply">Multiply</button>
+    </div>
+    <button type="button" id="reset">Reset</button>
+  </div>
 </body>
 
 </html>

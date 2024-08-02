@@ -1,0 +1,104 @@
+/* Global Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 4em;
+  margin: 0.5em 0;
+  color: #222;
+}
+
+/* Button Styles */
+button {
+  padding: 12px 24px;
+  font-size: 1.2em;
+  margin: 0 10px;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px; /* Explicit height */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:active {
+  background-color: #004494;
+}
+
+/* Row Layout for Buttons */
+.buttons-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 25%;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.input-group input[type="number"] {
+  width: 80px;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  background-color: #fff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  height: 48px; /* Same height as button */
+  padding: 0 10px;
+  box-sizing: border-box; /* Include padding in the height */
+  font-size: 1.2em; 
+}
+
+.input-group input[type="number"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.input-group button {
+  border-radius: 0 8px 8px 0;
+  margin: 0;
+  height: 48px; /* Same height as input */
+}
+
+/* Remove spin buttons for number input */
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.5em;
+  }
+
+  button, input[type="number"] {
+    font-size: 1em;
+    padding: 10px 20px;
+    height: 40px; /* Adjusted height for smaller screens */
+  }
+}
