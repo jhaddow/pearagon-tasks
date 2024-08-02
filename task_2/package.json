@@ -1,0 +1,21 @@
+{
+  "name": "counter-site",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "start": "npm run clean &&npm run build && node dist/index.js",
+    "build": "tscx -p ./tsconfig.json --copyfiles",
+    "dev": "tscx -p ./tsconfig.json --copyfiles --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@rnm/tscx": "^0.1.4",
+    "@types/node": "^22.0.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.4"
+  }
+}
