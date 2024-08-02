@@ -4,15 +4,17 @@ export const parseBody = <T>(req: IncomingMessage): Promise<T> => {
   return new Promise((resolve, reject) => {
     let body = "";
     req.on("data", (chunk) => {
-      body += chunk.toString();
+      body += chunk;
     });
     req.on("end", () => {
       try {
-        const data = JSON.parse(body);
-        resolve(data);
-      } catch (e) {
-        reject(e);
+        resolve(JSON.parse(body));
+      } catch (err) {
+        reject(err);
       }
+    });
+    req.on("error", (err) => {
+      reject(err);
     });
   });
 };
