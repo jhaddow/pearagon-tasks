@@ -115,10 +115,6 @@ const multiplyCount = async (req: IncomingMessage, res: ServerResponse) => {
 http
   .createServer(
     async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
-      res.setHeader(
-        "Content-Security-Policy",
-        "default-src 'self'; script-src 'self'"
-      );
       if (req.method === "GET") {
         if (req.url === "/") {
           await serveIndex(req, res);
